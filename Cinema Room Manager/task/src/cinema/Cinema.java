@@ -1,6 +1,8 @@
 package cinema;
 
 
+import java.util.Scanner;
+
 public class Cinema {
 
     public static void room() {
@@ -17,7 +19,28 @@ public class Cinema {
         }
     }
 
+    public static void cost() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the number of rows:\n" + "> ");
+        int row = scanner.nextInt();
+        System.out.print("Enter the number of seats in each row:\n" + "> ");
+        int numberOfSeat = scanner.nextInt();
+        int allSeatsCost = 0;
+        if (row * numberOfSeat <= 60) {
+            allSeatsCost = row * numberOfSeat * 10;
+            System.out.println("Total income:\n" + "$" + allSeatsCost);
+        } else if (row * numberOfSeat > 60) {
+            if (row % 2 == 0) {
+                allSeatsCost = row / 2 * numberOfSeat * 10 + row / 2 * numberOfSeat * 8;
+            } else {
+                allSeatsCost = row / 2 * numberOfSeat * 10 + (row / 2 + 1) * numberOfSeat * 8;
+            }
+            System.out.println("Total income:\n" + "$" + allSeatsCost);
+        }
+    }
+
     public static void main(String[] args) {
         room();
+        cost();
     }
 }
