@@ -5,20 +5,18 @@ import java.util.Scanner;
 public class Cinema {
 
     static Scanner scanner = new Scanner(System.in);
-    static int[] cinemaRoom = new int[2];
     static int row;
     static int numberOfSeat;
     static int rowNumber;
     static int seatNumber;
+    static String[][] room;
 
-    public static void room(int[] cinemaRoom) {
 
-        row = cinemaRoom[0];
-        numberOfSeat = cinemaRoom[1];
+    public static void printRoom() {
 
-        String[][] seat = new String[row][numberOfSeat];
         System.out.println("Cinema:");
         System.out.print("  ");
+
         int horizontalRow = 1;
 
         for (int i = 1; i <= numberOfSeat; i++) {
@@ -28,29 +26,15 @@ public class Cinema {
                 System.out.println(i);
             }
         }
-
-        if (rowNumber == 0 && seatNumber == 0) {
-            for (int i = 0; i < seat.length; i++) {
-                System.out.print(horizontalRow++ + " ");
-                for (int j = 0; j < seat[i].length; j++) {
-                    System.out.print(seat[i][j] = "S" + " ");
-                }
-                System.out.println();
+        for (int i = 0; i < room.length; i++) {
+            System.out.print(horizontalRow++ + " ");
+            for (int j = 0; j < room[i].length; j++) {
+                System.out.print(room[i][j] + " ");
             }
-        } else {
-            for (int i = 0; i < seat.length; i++) {
-                System.out.print(horizontalRow++ + " ");
-                for (int j = 0; j < seat[i].length; j++) {
-                    if (i == rowNumber - 1 && j == seatNumber - 1) {
-                        System.out.print(seat[i][j] = "B" + " ");
-                    } else {
-                        System.out.print(seat[i][j] = "S" + " ");
-                    }
-                }
-                System.out.println();
-            }
+            System.out.println();
         }
-
+        System.out.println();
+        menu();
     }
 
     public static void cost() {
@@ -60,55 +44,65 @@ public class Cinema {
         System.out.print("Enter a seat number in that row:\n" + "> ");
         seatNumber = scanner.nextInt();
 
+        room[rowNumber-1][seatNumber-1]="B";
+
         if (row * numberOfSeat <= 60) {
             System.out.println("Ticket price: $10\n");
-            room(cinemaRoom);
+            menu();
         } else {
             if (row / 2 >= rowNumber) {
                 System.out.println("Ticket price: $10\n");
-                room(cinemaRoom);
+                menu();
             } else {
                 System.out.println("Ticket price: $8\n");
-                room(cinemaRoom);
+                menu();
             }
         }
     }
 
-//        int allSeatsCost = 0;
-//        if (row * numberOfSeat <= 60) {
-//            allSeatsCost = row * numberOfSeat * 10;
-//            System.out.println("Total income:\n" + "$" + allSeatsCost);
-//        } else if (row * numberOfSeat > 60) {
-//            if (row % 2 == 0) {
-//                allSeatsCost = row / 2 * numberOfSeat * 10 + row / 2 * numberOfSeat * 8;
-//            } else {
-//                allSeatsCost = row / 2 * numberOfSeat * 10 + (row / 2 + 1) * numberOfSeat * 8;
-//            }
-//            System.out.println("Total income:\n" + "$" + allSeatsCost);
-//        }
-
-
-    public static int[] makeRoom() {
+    public static void makeRoom() {
 
         System.out.print("Enter the number of rows:\n" + "> ");
-        int row = scanner.nextInt();
+        row = scanner.nextInt();
         System.out.print("Enter the number of seats in each row:\n" + "> ");
-        int numberOfSeat = scanner.nextInt();
-        //int[] cinemaRoom = new int[2];
-        cinemaRoom[0] = row;
-        cinemaRoom[1] = numberOfSeat;
+        numberOfSeat = scanner.nextInt();
+
+        room = new String[row][numberOfSeat];
+
+        for (int i = 0 ; i< room.length;i++){
+            for (int j = 0; j<room[i].length;j++){
+                room[i][j]="S";
+            }
+        }
+
         if (row > 9 || row < 1 || numberOfSeat > 9 || numberOfSeat < 1) {
             System.out.println("the number of rows and seats won't be greater than 9");
             makeRoom();
-        } else {
-            room(cinemaRoom);
         }
-        return cinemaRoom;
+    }
+
+    public static void menu() {
+
+        System.out.print("1. Show the seats\n" +
+                "2. Buy a ticket\n" +
+                "0. Exit\n" +
+                "> ");
+
+        int menuNumber = scanner.nextInt();
+
+        switch (menuNumber) {
+            case 1:
+                printRoom();
+            case 2:
+                cost();
+            case 0:
+                break;
+        }
     }
 
     public static void main(String[] args) {
 
         makeRoom();
-        cost();
+        menu();
     }
 }
