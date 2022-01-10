@@ -109,6 +109,8 @@ public class Cinema {
         }
         System.out.println("Percentage: "+ roundOff/100 +"%");
 
+        int currentIncome = count * oneTicketCost;
+        System.out.println("Current income: " + "$" + currentIncome);
 
         if (row * numberOfSeat <= 60) {
             allSeatsCost = row * numberOfSeat * 10;
