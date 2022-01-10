@@ -14,7 +14,7 @@ public class Cinema {
     static int currentIncome;
     static String[][] room;
 
-    public static void printRoom() {
+    public static void showTheSeats() {
 
         System.out.println("Cinema:");
         System.out.print("  ");
@@ -38,7 +38,7 @@ public class Cinema {
         System.out.println();
     }
 
-    public static void cost() {
+    public static void buyATicket() {
 
         System.out.print("Enter a row number:\n" + "> ");
         rowNumber = scanner.nextInt();
@@ -51,7 +51,7 @@ public class Cinema {
 
             if (room[rowNumber - 1][seatNumber - 1].equals("B")) {
                 System.out.println("That ticket has already been purchased!");
-                cost();
+                buyATicket();
             } else {
                 room[rowNumber - 1][seatNumber - 1] = "B";
                 if (row * numberOfSeat <= 60) {
@@ -137,10 +137,10 @@ public class Cinema {
 
             switch (menuNumber) {
                 case 1:
-                    printRoom();
+                    showTheSeats();
                     break;
                 case 2:
-                    cost();
+                    buyATicket();
                     break;
                 case 3:
                     statistic();
