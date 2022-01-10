@@ -57,16 +57,16 @@ public class Cinema {
                 if (row * numberOfSeat <= 60) {
                     System.out.println("Ticket price: $10\n");
                     oneTicketCost = 10;
-                    currentIncome+=oneTicketCost;
+                    currentIncome += oneTicketCost;
                 } else {
                     if (row / 2 >= rowNumber) {
                         System.out.println("Ticket price: $10\n");
                         oneTicketCost = 10;
-                        currentIncome+=oneTicketCost;
+                        currentIncome += oneTicketCost;
                     } else {
                         System.out.println("Ticket price: $8\n");
                         oneTicketCost = 8;
-                        currentIncome+=oneTicketCost;
+                        currentIncome += oneTicketCost;
                     }
                 }
             }
@@ -97,7 +97,7 @@ public class Cinema {
     public static void statistic() {
 
         System.out.println();
-        int count =0;
+        int count = 0;
         for (int i = 0; i < room.length; i++) {
             for (int j = 0; j < room[i].length; j++) {
                 if (room[i][j].equals("B")) {
@@ -107,7 +107,7 @@ public class Cinema {
         }
         System.out.printf("Number of purchased tickets: %d%n", count);
 
-        double percentage = (count / (double) ( row * numberOfSeat) * 100);
+        double percentage = (count / (double) (row * numberOfSeat) * 100);
         System.out.printf("Percentage: %.2f%%%n", percentage);
 
         System.out.println("Current income: " + "$" + currentIncome);
