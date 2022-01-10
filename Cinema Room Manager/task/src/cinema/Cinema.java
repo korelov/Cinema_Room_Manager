@@ -9,8 +9,9 @@ public class Cinema {
     static int numberOfSeat;
     static int rowNumber;
     static int seatNumber;
+    static int oneTicketCost;
+    static int allSeatsCost;
     static String[][] room;
-
 
     public static void printRoom() {
 
@@ -34,7 +35,6 @@ public class Cinema {
             System.out.println();
         }
         System.out.println();
-        menu();
     }
 
     public static void cost() {
@@ -44,18 +44,27 @@ public class Cinema {
         System.out.print("Enter a seat number in that row:\n" + "> ");
         seatNumber = scanner.nextInt();
 
-        room[rowNumber-1][seatNumber-1]="B";
-
-        if (row * numberOfSeat <= 60) {
-            System.out.println("Ticket price: $10\n");
-            menu();
+        if (rowNumber > row || rowNumber < 1 || seatNumber > numberOfSeat || seatNumber < 1) {
+            System.out.println("Wrong input!");
         } else {
-            if (row / 2 >= rowNumber) {
-                System.out.println("Ticket price: $10\n");
-                menu();
+
+            if (room[rowNumber - 1][seatNumber - 1].equals("B")) {
+                System.out.println("That ticket has already been purchased!");
+                cost();
             } else {
-                System.out.println("Ticket price: $8\n");
-                menu();
+                room[rowNumber - 1][seatNumber - 1] = "B";
+                if (row * numberOfSeat <= 60) {
+                    System.out.println("Ticket price: $10\n");
+                    oneTicketCost = 10;
+                } else {
+                    if (row / 2 >= rowNumber) {
+                        System.out.println("Ticket price: $10\n");
+                        oneTicketCost = 10;
+                    } else {
+                        System.out.println("Ticket price: $8\n");
+                        oneTicketCost = 8;
+                    }
+                }
             }
         }
     }
@@ -69,35 +78,77 @@ public class Cinema {
 
         room = new String[row][numberOfSeat];
 
-        for (int i = 0 ; i< room.length;i++){
-            for (int j = 0; j<room[i].length;j++){
-                room[i][j]="S";
-            }
-        }
-
         if (row > 9 || row < 1 || numberOfSeat > 9 || numberOfSeat < 1) {
             System.out.println("the number of rows and seats won't be greater than 9");
             makeRoom();
+        } else {
+            for (int i = 0; i < room.length; i++) {
+                for (int j = 0; j < room[i].length; j++) {
+                    room[i][j] = "S";
+                }
+            }
         }
     }
 
-    public static void menu() {
+    public static void statistic() {
 
-        System.out.print("1. Show the seats\n" +
-                "2. Buy a ticket\n" +
-                "0. Exit\n" +
-                "> ");
-
-        int menuNumber = scanner.nextInt();
-
-        switch (menuNumber) {
-            case 1:
-                printRoom();
-            case 2:
-                cost();
-            case 0:
-                break;
+        System.out.println();
+        int count = 0;
+        for (int i = 0; i < room.length; i++) {
+            for (int j = 0; j < room[i].length; j++) {
+                if (room[i][j].equals("B")) {
+                    count++;
+                }
+            }
         }
+        System.out.printf("Number of purchased tickets: %d%n", count);
+
+        double roundOff = Math.ceil(count*100*100 / (row*numberOfSeat));
+        if(roundOff % 10 >= 5 ){
+            roundOff = roundOff+1;
+        }
+        System.out.println("Percentage: "+ roundOff/100 +"%");
+
+        int currentIncome = count * oneTicketCost;
+        System.out.println("Current income: " + "$" + currentIncome);
+
+        if (row * numberOfSeat <= 60) {
+            allSeatsCost = row * numberOfSeat * 10;
+        } else if (row * numberOfSeat > 60) {
+            if (row % 2 == 0) {
+                allSeatsCost = row / 2 * numberOfSeat * 10 + row / 2 * numberOfSeat * 8;
+            } else {
+                allSeatsCost = row / 2 * numberOfSeat * 10 + (row / 2 + 1) * numberOfSeat * 8;
+            }
+        }
+        System.out.println("Total income: " + "$" + allSeatsCost);
+    }
+
+    public static void menu() {
+        int menuNumber;
+        do {
+            System.out.print("1. Show the seats\n" +
+                    "2. Buy a ticket\n" +
+                    "3. Statistics\n" +
+                    "0. Exit\n" +
+                    "> ");
+
+            menuNumber = scanner.nextInt();
+
+            switch (menuNumber) {
+                case 1:
+                    printRoom();
+                    break;
+                case 2:
+                    cost();
+                    break;
+                case 3:
+                    statistic();
+                    break;
+                case 0:
+                    break;
+            }
+        } while (menuNumber != 0);
     }
 
     public static void main(String[] args) {
